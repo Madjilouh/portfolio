@@ -4,9 +4,9 @@ import {
   MapPin, GraduationCap, Shield, Server, Code2, Wrench,ChevronDown,
 } from "lucide-react";
 import { Copyright } from "lucide-react";
+import { Menu, X } from "lucide-react";
 // ---------------------------------------------------------------------------
 // DATA — modifie librement ce bloc pour mettre à jour le contenu du site.
-// Remplace les valeurs marquées [À COMPLÉTER] par tes vraies coordonnées.
 // ---------------------------------------------------------------------------
 
 const CONTACT = {
@@ -195,6 +195,7 @@ function WindowChrome({ title }) {
 }
 
 export default function Portfolio() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [now, setNow] = useState(new Date());
   const [scrolled, setScrolled] = useState(false);
 
@@ -283,8 +284,14 @@ export default function Portfolio() {
           <a href="#top" className="font-display text-xl text-zinc-100 tracking-tight shrink-0 mr-8 hover:scale-105 transition-transform">
             <span className="text-amber-400 ">{"<"}</span> MADIOU<span className="text-amber-400 ">{" />"}</span>
           </a>
+          <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="ml-auto md:hidden text-zinc-300 hover:text-amber-400 transition"
+          >
+              {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
 
-          <nav className="ml-auto flex items-center gap-6 sm:gap-10 overflow-x-auto">
+          <nav className="hidden md:flex items-center gap-6 sm:gap-10 ml-auto">
             {NAV_LINKS.map((l) => (
               <a
                 key={l.id}
@@ -306,6 +313,42 @@ export default function Portfolio() {
           </nav>
         </div>
       </header>
+      {mobileMenuOpen && (
+          <div className="md:hidden mt-4 rounded-xl border border-zinc-800 bg-zinc-950/95 backdrop-blur-lg p-5">
+              <nav className="flex flex-col gap-5">
+
+                  <a href="#about" onClick={() => setMobileMenuOpen(false)}>
+                      ~/about
+                  </a>
+
+                  <a href="#skills" onClick={() => setMobileMenuOpen(false)}>
+                      ~/skills
+                  </a>
+
+                  <a href="#projects" onClick={() => setMobileMenuOpen(false)}>
+                      ~/projects
+                  </a>
+
+                  <a href="#formation" onClick={() => setMobileMenuOpen(false)}>
+                      ~/formation
+                  </a>
+
+                  <a href="#contact" onClick={() => setMobileMenuOpen(false)}>
+                      ~/contact
+                  </a>
+
+                  <a
+                      href="/resume.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 rounded-lg bg-amber-400 px-4 py-3 text-center font-semibold text-black hover:bg-amber-300 transition"
+                  >
+                      View Resume
+                  </a>
+
+              </nav>
+          </div>
+      )}
 
       {/* HERO */}
       <section className="relative overflow-hidden pt-36 pb-20 px-6">
