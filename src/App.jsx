@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { Copyright } from "lucide-react";
 import { Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
 // ---------------------------------------------------------------------------
 // DATA — modifie librement ce bloc pour mettre à jour le contenu du site.
 // ---------------------------------------------------------------------------
@@ -194,6 +195,15 @@ function WindowChrome({ title }) {
   );
 }
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
 export default function Portfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [now, setNow] = useState(new Date());
@@ -314,39 +324,79 @@ export default function Portfolio() {
         </div>
       </header>
       {mobileMenuOpen && (
-          <div className="md:hidden mt-4 rounded-xl border border-zinc-800 bg-zinc-950/95 backdrop-blur-lg p-5">
-              <nav className="flex flex-col gap-5">
+          <div className="fixed inset-0 z-50 md:hidden">
+              {/* Overlay */}
+              <div 
+                  className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                  onClick={() => setMobileMenuOpen(false)}
+              />
+              
+              {/* Menu */}
+              <div className="absolute top-0 left-0 right-0 bg-[#0f172a]/95 backdrop-blur-md border-b border-zinc-800/50 animate-slideDown">
+                  {/* Header */}
+                  <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800/30">
+                      <span className="font-mono text-lg">
+                          <span className="text-amber-400">&lt;</span>
+                          <span className="text-zinc-100"> MADIOU</span>
+                          <span className="text-amber-400"> /&gt;</span>
+                      </span>
+                      <button 
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="text-zinc-400 hover:text-zinc-100 transition"
+                      >
+                          <X size={24} />
+                      </button>
+                  </div>
 
-                  <a href="#about" onClick={() => setMobileMenuOpen(false)}>
-                      ~/about
-                  </a>
+                  {/* Liens centrés */}
+                  <nav className="flex flex-col items-center py-10 gap-7">
+                      <a 
+                          href="#about" 
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="font-mono text-lg text-zinc-300 hover:text-amber-400 transition tracking-wide"
+                      >
+                          ~/About
+                      </a>
+                      <a 
+                          href="#skills" 
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="font-mono text-lg text-zinc-300 hover:text-amber-400 transition tracking-wide"
+                      >
+                          ~/Skills
+                      </a>
+                      <a 
+                          href="#projects" 
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="font-mono text-lg text-zinc-300 hover:text-amber-400 transition tracking-wide"
+                      >
+                          ~/Projects
+                      </a>
+                      <a 
+                          href="#formation" 
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="font-mono text-lg text-zinc-300 hover:text-amber-400 transition tracking-wide"
+                      >
+                          ~/Formation
+                      </a>
+                      <a 
+                          href="#contact" 
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="font-mono text-lg text-zinc-300 hover:text-amber-400 transition tracking-wide"
+                      >
+                          ~/Contact
+                      </a>
 
-                  <a href="#skills" onClick={() => setMobileMenuOpen(false)}>
-                      ~/skills
-                  </a>
-
-                  <a href="#projects" onClick={() => setMobileMenuOpen(false)}>
-                      ~/projects
-                  </a>
-
-                  <a href="#formation" onClick={() => setMobileMenuOpen(false)}>
-                      ~/formation
-                  </a>
-
-                  <a href="#contact" onClick={() => setMobileMenuOpen(false)}>
-                      ~/contact
-                  </a>
-
-                  <a
-                      href="/resume.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 rounded-lg bg-amber-400 px-4 py-3 text-center font-semibold text-black hover:bg-amber-300 transition"
-                  >
-                      View Resume
-                  </a>
-
-              </nav>
+                      {/* Resume outline */}
+                      <a
+                          href="/resume.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-2 px-10 py-2.5 border border-amber-400/60 text-amber-400 font-mono text-sm tracking-widest uppercase rounded hover:bg-amber-400/10 transition"
+                      >
+                          Resume
+                      </a>
+                  </nav>
+              </div>
           </div>
       )}
 
@@ -431,21 +481,48 @@ export default function Portfolio() {
       </section>
 
       {/* ABOUT */}
-      <section id="about" className="py-24 px-6 border-t border-zinc-900">
+      <motion.section
+        id="about"
+        className="py-24 px-6 border-t border-zinc-900"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.25 }}
+      >
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-14">
           <div>
             <SectionLabel>$ cat about.md</SectionLabel>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-zinc-100 mb-6">À propos</h2>
-            <p className="text-zinc-400 leading-relaxed mb-6">
+            <motion.h2
+              className="font-display font-bold text-3xl sm:text-4xl text-zinc-100 mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              À propos
+            </motion.h2>
+            <motion.p
+              className="text-zinc-400 leading-relaxed mb-6"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
               Je suis étudiant en deuxième année d'ingénierie informatique, spécialisation Systèmes
               d'Information, Data et Sécurité. Mon truc, c'est comprendre comment les systèmes tiennent
               debout — et comment ils tombent. Entre les TP d'administration Linux/Windows et mes projets
               perso, je passe autant de temps à construire des services qu'à les casser pour les sécuriser.
-            </p>
-            <p className="text-zinc-400 leading-relaxed mb-8">
+            </motion.p>
+            <motion.p
+              className="text-zinc-400 leading-relaxed mb-8"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
               Mon objectif : rejoindre une équipe SysAdmin, DevOps ou SOC pour apprendre au contact de
               vrais systèmes de production, tout en continuant à monter en compétence sur la sécurité.
-            </p>
+            </motion.p>
             <div className="grid grid-cols-2 gap-6">
               <div className="flex items-start gap-3">
                 <GraduationCap size={18} className="text-amber-400 mt-0.5 shrink-0" />
@@ -478,7 +555,13 @@ export default function Portfolio() {
             </div>
           </div>
 
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 overflow-hidden self-start overflow-hidden shadow-2xl shadow-black/40">
+          <motion.div
+            className="rounded-lg border border-zinc-800 bg-zinc-900/40 overflow-hidden self-start overflow-hidden shadow-2xl shadow-black/40"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             <WindowChrome title="neofetch" />
             <div className="p-5 font-display text-sm space-y-2.5">
               {[
@@ -497,18 +580,39 @@ export default function Portfolio() {
                 </p>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* SKILLS */}
-      <section id="skills" className="py-24 px-6 border-t border-zinc-900 bg-zinc-900/10">
+      <motion.section
+        id="skills"
+        className="py-24 px-6 border-t border-zinc-900 bg-zinc-900/10"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.25 }}
+      >
         <div className="max-w-6xl mx-auto">
           <SectionLabel>$ systemctl list-units --type=skill</SectionLabel>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl text-zinc-100 mb-12">Compétences</h2>
+          <motion.h2
+            className="font-display font-bold text-3xl sm:text-4xl text-zinc-100 mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            Compétences
+          </motion.h2>
           <div className="grid md:grid-cols-2 gap-8">
-            {SKILLS.map((cat) => (
-              <div key={cat.category}>
+            {SKILLS.map((cat, index) => (
+              <motion.div
+                key={cat.category}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+              >
                 <div className="flex items-center gap-2 mb-4">
                   <cat.icon size={18} className="text-amber-400" />
                   <h3 className="font-display text-zinc-100 font-semibold">{cat.category}</h3>
@@ -527,22 +631,41 @@ export default function Portfolio() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* PROJECTS */}
-      <section id="projects" className="py-24 px-6 border-t border-zinc-900">
+      <motion.section
+        id="projects"
+        className="py-24 px-6 border-t border-zinc-900"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.25 }}
+      >
         <div className="max-w-6xl mx-auto">
           <SectionLabel>$ ls -la ~/projects</SectionLabel>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl text-zinc-100 mb-12">Projets</h2>
+          <motion.h2
+            className="font-display font-bold text-3xl sm:text-4xl text-zinc-100 mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            Projets
+          </motion.h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {PROJECTS.map((p) => (
-              <div
+            {PROJECTS.map((p, index) => (
+              <motion.div
                 key={p.name}
                 className="flex flex-col rounded-lg border border-zinc-800 bg-zinc-900/30 p-5 hover:border-amber-400/40 transition"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
               >
                 <div className="mb-3">
                   <StatusBadge status={p.status} />
@@ -567,20 +690,42 @@ export default function Portfolio() {
                 >
                   Voir sur GitHub <ExternalLink size={12} />
                 </a>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* FORMATION / TIMELINE */}
-      <section id="formation" className="py-24 px-6 border-t border-zinc-900 bg-zinc-900/10">
+      <motion.section
+        id="formation"
+        className="py-24 px-6 border-t border-zinc-900 bg-zinc-900/10"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.25 }}
+      >
         <div className="max-w-6xl mx-auto max-w-3xl">
           <SectionLabel>$ journalctl -u parcours.service --since=2024</SectionLabel>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl text-zinc-100 mb-12">Formation &amp; Parcours</h2>
+          <motion.h2
+            className="font-display font-bold text-3xl sm:text-4xl text-zinc-100 mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            Formation &amp; Parcours
+          </motion.h2>
           <div>
             {TIMELINE.map((item, i) => (
-              <div key={item.title} className="flex gap-4">
+              <motion.div
+                key={item.title}
+                className="flex gap-4"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.15 }}
+              >
                 <div className="flex flex-col items-center">
                   <span className="w-3 h-3 rounded-full bg-amber-400 mt-1.5 shrink-0" />
                   {i < TIMELINE.length - 1 && <span className="w-px flex-1 bg-zinc-800" />}
@@ -593,24 +738,51 @@ export default function Portfolio() {
                   <p className="text-sm text-amber-400/80 font-display mb-2">{item.place}</p>
                   <p className="text-sm text-zinc-400 leading-relaxed">{item.detail}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* CONTACT */}
-      <section id="contact" className="py-24 px-6 border-t border-zinc-900">
+      <motion.section
+        id="contact"
+        className="py-24 px-6 border-t border-zinc-900"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.25 }}
+      >
         <div className="max-w-3xl mx-auto text-center">
           <SectionLabel>$ ssh madiou@contact -p 2026</SectionLabel>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl text-zinc-100 mb-4">Travaillons ensemble</h2>
-          <p className="text-zinc-400 leading-relaxed mb-10 max-w-xl mx-auto">
+          <motion.h2
+            className="font-display font-bold text-3xl sm:text-4xl text-zinc-100 mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            Travaillons ensemble
+          </motion.h2>
+          <motion.p
+            className="text-zinc-400 leading-relaxed mb-10 max-w-xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             Actuellement à la recherche d'un stage ou d'une alternance en administration système,
             sécurité ou DevOps. Une question, une opportunité, ou juste envie d'échanger sur Linux ?
             Écris-moi.
-          </p>
+          </motion.p>
 
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 overflow-hidden text-left mb-8">
+          <motion.div
+            className="rounded-lg border border-zinc-800 bg-zinc-900/40 overflow-hidden text-left mb-8"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             <WindowChrome title="contact.sh" />
             <div className="p-5 font-display text-sm">
               {[
@@ -634,7 +806,7 @@ export default function Portfolio() {
                 <span className="text-zinc-300">{CONTACT.location}</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           <a
             href={`mailto:${CONTACT.email}`}
@@ -643,7 +815,7 @@ export default function Portfolio() {
             <Mail size={16} /> Envoyer un email
           </a>
         </div>
-      </section>
+      </motion.section>
 
       {/* FOOTER */}
       <footer className="py-8 px-6 border-t border-zinc-900 text-center">
